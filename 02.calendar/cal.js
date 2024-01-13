@@ -5,57 +5,45 @@ import dayjs from "dayjs";
 import ja from "dayjs/locale/ja.js";
 
 dayjs.locale(ja);
-let argv = minimist(process.argv.slice(2));
+const argv = minimist(process.argv.slice(2));
 
-let specified_month = dayjs().format("M");
-let specified_year = dayjs().format("YYYY");
+let month = dayjs().format("M");
+let year = dayjs().format("YYYY");
 
-console.log();
 if (argv["m"]) {
-  specified_month = String(argv["m"]);
+  month = String(argv["m"]);
   if (argv["y"]) {
-    specified_year = String(argv["y"]);
+    year = String(argv["y"]);
   }
 }
 
-console.log(specified_month);
-console.log(specified_year);
+const formatted_month_and_year = `${year}-${month}`;
 
-const midasi = `      ${specified_month}月 ${specified_year}     \n日 月 火 水 木 金 土\n`;
-
-process.stdout.write(midasi);
-
-const create_space = (wday_number) => {
-  return "   ".repeat(wday_number);
+const create_space = (week_number) => {
+  return "   ".repeat(week_number);
 };
 
 const show_calendar = () => {
-  let first_date = dayjs(`${specified_year}-${specified_month}-1`)
-    .startOf("M")
-    .format("D");
-  let last_date = dayjs(`${specified_year}-${specified_month}-1`)
-    .endOf("M")
-    .format("D");
+  const first_date = dayjs(formatted_month_and_year).startOf("M").format("D");
+  const last_date = dayjs(formatted_month_and_year).endOf("M").format("D");
 
-  for (let i = first_date; i <= last_date; i++) {
-    let display_date = String(i);
+  for (let date = first_date; date <= last_date; date++) {
+    const display_date = String(date).padStart(2);
+    const date_week_number = dayjs(`${year}-${month}-${date}`).format("d");
 
-    if (i === "1") {
-      process.stdout.write(
-        `${create_space(
-          dayjs(`${specified_year}-${specified_month}-1`).format("d"),
-        )} 1 `,
-      );
+    if (date === "1") {
+      process.stdout.write(`${create_space(date_week_number)} 1 `);
     } else {
-      process.stdout.write(`${display_date.padStart(2)} `);
+      process.stdout.write(`${display_date} `);
     }
 
-    if (
-      dayjs(`${specified_year}-${specified_month}-${i}`).format("d") === "6"
-    ) {
-      console.log(" ");
+    if (date_week_number === "6") {
+      console.log("");
     }
   }
 };
+
+const month_and_year = `      ${month}月 ${year}     \n日 月 火 水 木 金 土\n`;
+process.stdout.write(month_and_year);
 
 show_calendar();
