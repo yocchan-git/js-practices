@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { run, all } from "./promise_functions.js";
 import sqlite3 from "sqlite3";
-const db = new sqlite3.Database("./books.sqlite3");
+const db = new sqlite3.Database("../books.sqlite3");
 
 run(
   db,
