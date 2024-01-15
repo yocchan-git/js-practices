@@ -3,9 +3,6 @@ import { run, all } from "./async_functions.js";
 import sqlite3 from "sqlite3";
 const db = new sqlite3.Database("./books.sqlite3");
 
-// let dropTable = `DROP TABLE books`;
-// run(db, dropTable);
-
 async function createBooksWithErrors() {
   await run(
     db,

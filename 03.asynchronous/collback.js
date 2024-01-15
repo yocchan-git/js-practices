@@ -11,12 +11,9 @@ db.run(
   function () {
     let bookTitle = "ふりがなJavaScript";
     let insert = `INSERT INTO books (title) VALUES (?)`;
-    // レコードを追加する
     db.run(insert, [bookTitle], function () {
       let selectAll = `SELECT title FROM books`;
-      // レコードを取得する
       db.all(selectAll, function (err, rows) {
-        // テーブルを削除する
         let dropTable = `DROP TABLE books`;
         db.run(dropTable, function () {
           console.log("Booksテーブルを削除したよ");

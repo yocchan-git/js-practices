@@ -14,18 +14,16 @@ db.run(
     }
     let bookTitle = null;
     let insert = `INSERT INTO books (title) VALUES (?)`;
-    // レコードを追加する
+
     db.run(insert, [bookTitle], function (err) {
       if (err) {
         console.error(err.message);
       }
       let selectAll = `SELECT title FROM book`;
-      // レコードを取得する
       db.all(selectAll, function (err) {
         if (err) {
           console.error(err.message);
         }
-        // テーブルを削除する
         let dropTable = `DROP TABLE books`;
         db.run(dropTable, function () {
           console.log("Booksテーブルを削除したよ");
