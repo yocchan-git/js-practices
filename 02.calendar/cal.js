@@ -19,8 +19,8 @@ if (argv["m"]) {
 
 const yearMonth = `${year}-${month}`;
 
-const createSpace = (weekNumber) => {
-  return "   ".repeat(weekNumber);
+const createSpace = (dayNumber) => {
+  return "   ".repeat(dayNumber);
 };
 
 const showCalendar = () => {
@@ -30,14 +30,14 @@ const showCalendar = () => {
 
   for (let date = firstDate; date <= lastDate; date++) {
     const displayDate = String(date).padStart(2);
-    const weekNumber = dayjs(`${year}-${month}-${date}`).format("d");
+    const dayNumber = dayjs(`${year}-${month}-${date}`).format("d");
 
     if (date === "1") {
-      process.stdout.write(createSpace(weekNumber));
+      process.stdout.write(createSpace(dayNumber));
     }
     process.stdout.write(`${displayDate} `);
 
-    if (weekNumber === saturdayNumber) {
+    if (dayNumber === saturdayNumber) {
       console.log("");
     }
   }
