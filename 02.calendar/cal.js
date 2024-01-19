@@ -17,25 +17,23 @@ if (argv["m"]) {
   }
 }
 
-const yearMonth = `${year}-${month}`;
-
 const createSpace = (dayNumber) => {
   return "   ".repeat(dayNumber);
 };
 
 const showCalendar = () => {
-  const firstDate = dayjs(yearMonth).startOf("M").format("D");
-  const lastDate = dayjs(yearMonth).endOf("M").format("D");
+  const firstDate = dayjs(`${year}-${month}-1`);
+  const lastDate = firstDate.endOf("M").format("D");
   const saturday = "6";
 
-  for (let date = firstDate; date <= lastDate; date++) {
-    const displayDate = String(date).padStart(2);
-    const dayNumber = dayjs(`${year}-${month}-${date}`).format("d");
+  for (let day = 1; day <= lastDate; day++) {
+    const currentDate = firstDate.add(day - 1, "d");
+    const dayNumber = currentDate.format("d");
 
-    if (date === "1") {
+    if (day === "1") {
       process.stdout.write(createSpace(dayNumber));
     }
-    process.stdout.write(`${displayDate} `);
+    process.stdout.write(`${currentDate.format("D").padStart(2)} `);
 
     if (dayNumber === saturday) {
       console.log("");
