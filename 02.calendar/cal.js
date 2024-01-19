@@ -19,8 +19,8 @@ if (argv["m"]) {
 
 const yearMonth = `${year}-${month}`;
 
-const createSpace = (week_number) => {
-  return "   ".repeat(week_number);
+const createSpace = (weekNumber) => {
+  return "   ".repeat(weekNumber);
 };
 
 const showCalendar = () => {
