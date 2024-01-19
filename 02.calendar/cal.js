@@ -17,33 +17,33 @@ if (argv["m"]) {
   }
 }
 
-const formatted_month_and_year = `${year}-${month}`;
+const yearMonth = `${year}-${month}`;
 
-const create_space = (week_number) => {
+const createSpace = (week_number) => {
   return "   ".repeat(week_number);
 };
 
-const show_calendar = () => {
-  const first_date = dayjs(formatted_month_and_year).startOf("M").format("D");
-  const last_date = dayjs(formatted_month_and_year).endOf("M").format("D");
+const showCalendar = () => {
+  const firstDate = dayjs(yearMonth).startOf("M").format("D");
+  const lastDate = dayjs(yearMonth).endOf("M").format("D");
 
-  for (let date = first_date; date <= last_date; date++) {
-    const display_date = String(date).padStart(2);
-    const date_week_number = dayjs(`${year}-${month}-${date}`).format("d");
+  for (let date = firstDate; date <= lastDate; date++) {
+    const displayDate = String(date).padStart(2);
+    const dateWeekNumber = dayjs(`${year}-${month}-${date}`).format("d");
 
     if (date === "1") {
-      process.stdout.write(`${create_space(date_week_number)} 1 `);
+      process.stdout.write(`${createSpace(dateWeekNumber)} 1 `);
     } else {
-      process.stdout.write(`${display_date} `);
+      process.stdout.write(`${displayDate} `);
     }
 
-    if (date_week_number === "6") {
+    if (dateWeekNumber === "6") {
       console.log("");
     }
   }
 };
 
-const month_and_year = `      ${month}月 ${year}     \n日 月 火 水 木 金 土\n`;
-process.stdout.write(month_and_year);
+const monthAndYear = `      ${month}月 ${year}     \n日 月 火 水 木 金 土\n`;
+process.stdout.write(monthAndYear);
 
-show_calendar();
+showCalendar();
