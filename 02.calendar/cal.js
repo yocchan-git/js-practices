@@ -43,7 +43,7 @@ const showCalendar = () => {
   }
 };
 
-const monthAndYear = `      ${month}月 ${year}     \n日 月 火 水 木 金 土\n`;
-process.stdout.write(monthAndYear);
+console.log(`      ${month}月 ${year}`);
+console.log("日 月 火 水 木 金 土");
 
 showCalendar();
