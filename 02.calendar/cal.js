@@ -32,10 +32,9 @@ const showCalendar = () => {
     const weekNumber = dayjs(`${year}-${month}-${date}`).format("d");
 
     if (date === "1") {
-      process.stdout.write(`${createSpace(dateWeekNumber)} 1 `);
-    } else {
-      process.stdout.write(`${displayDate} `);
+      process.stdout.write(createSpace(weekNumber));
     }
+    process.stdout.write(`${displayDate} `);
 
     if (dateWeekNumber === "6") {
       console.log("");
