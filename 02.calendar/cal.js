@@ -29,7 +29,7 @@ const showCalendar = () => {
 
   for (let date = firstDate; date <= lastDate; date++) {
     const displayDate = String(date).padStart(2);
-    const dateWeekNumber = dayjs(`${year}-${month}-${date}`).format("d");
+    const weekNumber = dayjs(`${year}-${month}-${date}`).format("d");
 
     if (date === "1") {
       process.stdout.write(`${createSpace(dateWeekNumber)} 1 `);
