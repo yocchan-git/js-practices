@@ -30,7 +30,7 @@ const showCalendar = () => {
     const currentDate = firstDate.add(day - 1, "d");
     const dayNumber = currentDate.format("d");
 
-    if (day === "1") {
+    if (day === 1) {
       process.stdout.write(createSpace(dayNumber));
     }
     process.stdout.write(`${currentDate.format("D").padStart(2)} `);
