@@ -26,6 +26,7 @@ const createSpace = (week_number) => {
 const showCalendar = () => {
   const firstDate = dayjs(yearMonth).startOf("M").format("D");
   const lastDate = dayjs(yearMonth).endOf("M").format("D");
+  const saturdayNumber = "6";
 
   for (let date = firstDate; date <= lastDate; date++) {
     const displayDate = String(date).padStart(2);
@@ -36,7 +37,7 @@ const showCalendar = () => {
     }
     process.stdout.write(`${displayDate} `);
 
-    if (dateWeekNumber === "6") {
+    if (weekNumber === saturdayNumber) {
       console.log("");
     }
   }
