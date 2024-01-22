@@ -35,7 +35,7 @@ const showCalendar = () => {
     }
     process.stdout.write(`${currentDate.format("D").padStart(2)} `);
 
-    if (dayNumber === saturday) {
+    if (currentDate.format("d") === saturday) {
       console.log("");
     }
   }
