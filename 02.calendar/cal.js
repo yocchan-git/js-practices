@@ -7,15 +7,9 @@ import ja from "dayjs/locale/ja.js";
 dayjs.locale(ja);
 const argv = minimist(process.argv.slice(2));
 
-let month = dayjs().format("M");
-let year = dayjs().format("YYYY");
-
-if (argv["m"]) {
-  month = String(argv["m"]);
-  if (argv["y"]) {
-    year = String(argv["y"]);
-  }
-}
+const today = dayjs();
+const month = argv["m"] ? String(argv["m"]) : today.format("M");
+const year = argv["m"] && argv["y"] ? String(argv["y"]) : today.format("YYYY");
 
 const createSpace = (dayNumber) => {
   return "   ".repeat(dayNumber);
