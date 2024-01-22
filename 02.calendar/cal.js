@@ -23,10 +23,10 @@ const createSpace = (dayNumber) => {
 
 const showCalendar = () => {
   const firstDate = dayjs(`${year}-${month}-1`);
-  const lastDate = firstDate.endOf("M").format("D");
+  const lastDay = firstDate.endOf("M").format("D");
   const saturday = "6";
 
-  for (let day = 1; day <= lastDate; day++) {
+  for (let day = 1; day <= lastDay; day++) {
     const currentDate = firstDate.add(day - 1, "d");
     const dayNumber = currentDate.format("d");
 
