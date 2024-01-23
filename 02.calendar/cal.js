@@ -12,7 +12,8 @@ showCalendar();
 function showCalendar() {
   const today = dayjs();
   const month = argv["m"] ? String(argv["m"]) : today.format("M");
-  const year = argv["m"] && argv["y"] ? String(argv["y"]) : today.format("YYYY");
+  const year =
+    argv["m"] && argv["y"] ? String(argv["y"]) : today.format("YYYY");
 
   console.log(`      ${month}月 ${year}`);
   console.log("日 月 火 水 木 金 土");
@@ -34,4 +35,4 @@ function showCalendar() {
       console.log("");
     }
   }
-};
+}
