@@ -1,10 +1,9 @@
-#!/usr/bin/env node
 import minimist from "minimist";
 import sqlite3 from "sqlite3";
 import readline from "readline";
 import Enquirer from "enquirer";
 
-class Memo {
+export default class Memo {
   constructor() {
     this.db = new sqlite3.Database("./memos.sqlite3");
     this.argv = minimist(process.argv.slice(2));
@@ -37,7 +36,7 @@ class Memo {
     });
   }
 
-  createIndex() {
+  fetchAllMemos() {
     return new Promise((resolve) => {
       let selectAll = `SELECT * FROM memos`;
       this.db.all(selectAll, function (err, memos) {
@@ -46,27 +45,12 @@ class Memo {
     });
   }
 
-  change(memos) {
-    return new Promise((resolve) => {
-      const array = memos.map((memo) => {
-        const memoContent = memo.content.split("\n")[0];
-        return { id: memo.id, name: memoContent };
-      });
-      resolve(array);
+  changeMemoFormatForEnquirer(memos) {
+    const formattedMemos = memos.map((memo) => {
+      const memoContent = memo.content.split("\n")[0];
+      return { id: memo.id, name: memoContent };
     });
-  }
-
-  show(memoId) {
-    this.db.get(
-      "SELECT content FROM memos WHERE id = ?",
-      memoId,
-      function (err, memo) {
-        if (err) {
-          console.error(err.message);
-        }
-        console.log(memo.content);
-      },
-    );
+    return formattedMemos
   }
 
   delete(memoId) {
@@ -77,8 +61,8 @@ class Memo {
   }
 
   async selectMemoId() {
-    const memos = await this.createIndex();
-    const memosObject = await this.change(memos);
+    const memos = await this.fetchAllMemos();
+    const memosObject = this.changeMemoFormatForEnquirer(memos);
 
     const question = {
       type: "select",
@@ -90,52 +74,35 @@ class Memo {
       },
     };
     const answer = await Enquirer.prompt(question);
-    return answer.id;
+
+    const selectedMemo = memos.find(memo => memo.id === answer.id);
+    return selectedMemo;
   }
 
-  async actions() {
+  async run_memo() {
     await this.createTable();
 
     if (this.argv["l"]) {
       this.index();
     } else if (this.argv["r"]) {
-      const memoId = await this.selectMemoId();
-      this.show(memoId);
+      const memo = await this.selectMemoId();
+      console.log(memo.content)
     } else if (this.argv["d"]) {
-      const memoId = await this.selectMemoId();
-      this.delete(memoId);
+      const memo = await this.selectMemoId();
+      this.delete(memo.id);
     } else {
       this.create();
     }
   }
 
-  checkTable() {
+  createTable() {
     return new Promise((resolve) => {
-      this.db.get(
-        'select count(*) from sqlite_master where type="table" and name=$name',
-        { $name: "memos" },
-        function (err, table) {
-          let exists = false;
-          if (0 < table["count(*)"]) {
-            exists = true;
-          }
-
-          resolve(exists);
-        },
+      this.db.run(
+        "CREATE TABLE IF NOT EXISTS memos (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT NOT NULL)",
+        () => {
+          resolve();
+        }
       );
     });
   }
-
-  async createTable() {
-    const existTable = await this.checkTable();
-
-    if (!existTable) {
-      this.db.run(
-        "CREATE TABLE memos (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT NOT NULL)",
-      );
-    }
-  }
 }
-
-const memo = new Memo();
-memo.actions();
