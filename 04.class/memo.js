@@ -9,23 +9,30 @@ export default class Memo {
     this.argv = minimist(process.argv.slice(2));
   }
 
-  create() {
-    let reader = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-      terminal: false,
-    });
+  async run_memo() {
+    await this.createTable();
 
-    let memo = "";
-    reader.on("line", (line) => {
-      memo += line + "\n";
-    });
+    if (this.argv["l"]) {
+      this.index();
+    } else if (this.argv["r"]) {
+      const memo = await this.selectMemo();
+      console.log(memo.content)
+    } else if (this.argv["d"]) {
+      const memo = await this.selectMemo();
+      this.delete(memo.id);
+    } else {
+      this.create();
+    }
+  }
 
-    reader.on("close", () => {
-      const sql = `INSERT INTO memos (content) VALUES (?)`;
-      this.db.run(sql, [memo], () => {
-        console.log(`メモを追加しました`);
-      });
+  createTable() {
+    return new Promise((resolve) => {
+      this.db.run(
+        "CREATE TABLE IF NOT EXISTS memos (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT NOT NULL)",
+        () => {
+          resolve();
+        }
+      );
     });
   }
 
@@ -34,6 +41,25 @@ export default class Memo {
       const firstLine = memo.content.split("\n")[0];
       console.log(firstLine);
     });
+  }
+
+  async selectMemo() {
+    const memos = await this.fetchAllMemos();
+    const formattedMemos = this.changeMemoFormatForEnquirer(memos);
+
+    const question = {
+      type: "select",
+      name: "id",
+      message: "詳細を表示したいメモを選んでください",
+      choices: formattedMemos,
+      result() {
+        return this.focused.id;
+      },
+    };
+    const answer = await Enquirer.prompt(question);
+
+    const selectedMemo = memos.find(memo => memo.id === answer.id);
+    return selectedMemo;
   }
 
   fetchAllMemos() {
@@ -60,49 +86,23 @@ export default class Memo {
     });
   }
 
-  async selectMemo() {
-    const memos = await this.fetchAllMemos();
-    const formattedMemos = this.changeMemoFormatForEnquirer(memos);
+  create() {
+    let reader = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+      terminal: false,
+    });
 
-    const question = {
-      type: "select",
-      name: "id",
-      message: "詳細を表示したいメモを選んでください",
-      choices: formattedMemos,
-      result() {
-        return this.focused.id;
-      },
-    };
-    const answer = await Enquirer.prompt(question);
+    let memo = "";
+    reader.on("line", (line) => {
+      memo += line + "\n";
+    });
 
-    const selectedMemo = memos.find(memo => memo.id === answer.id);
-    return selectedMemo;
-  }
-
-  async run_memo() {
-    await this.createTable();
-
-    if (this.argv["l"]) {
-      this.index();
-    } else if (this.argv["r"]) {
-      const memo = await this.selectMemo();
-      console.log(memo.content)
-    } else if (this.argv["d"]) {
-      const memo = await this.selectMemo();
-      this.delete(memo.id);
-    } else {
-      this.create();
-    }
-  }
-
-  createTable() {
-    return new Promise((resolve) => {
-      this.db.run(
-        "CREATE TABLE IF NOT EXISTS memos (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT NOT NULL)",
-        () => {
-          resolve();
-        }
-      );
+    reader.on("close", () => {
+      const sql = `INSERT INTO memos (content) VALUES (?)`;
+      this.db.run(sql, [memo], () => {
+        console.log(`メモを追加しました`);
+      });
     });
   }
 }
