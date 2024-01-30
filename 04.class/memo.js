@@ -60,15 +60,15 @@ export default class Memo {
     });
   }
 
-  async selectMemoId() {
+  async selectMemo() {
     const memos = await this.fetchAllMemos();
-    const memosObject = this.changeMemoFormatForEnquirer(memos);
+    const formattedMemos = this.changeMemoFormatForEnquirer(memos);
 
     const question = {
       type: "select",
       name: "id",
       message: "詳細を表示したいメモを選んでください",
-      choices: memosObject,
+      choices: formattedMemos,
       result() {
         return this.focused.id;
       },
@@ -85,10 +85,10 @@ export default class Memo {
     if (this.argv["l"]) {
       this.index();
     } else if (this.argv["r"]) {
-      const memo = await this.selectMemoId();
+      const memo = await this.selectMemo();
       console.log(memo.content)
     } else if (this.argv["d"]) {
-      const memo = await this.selectMemoId();
+      const memo = await this.selectMemo();
       this.delete(memo.id);
     } else {
       this.create();
