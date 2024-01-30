@@ -16,7 +16,7 @@ export default class Memo {
       this.index();
     } else if (this.argv["r"]) {
       const memo = await this.selectMemo();
-      console.log(memo.content)
+      console.log(memo.content);
     } else if (this.argv["d"]) {
       const memo = await this.selectMemo();
       this.delete(memo.id);
@@ -31,7 +31,7 @@ export default class Memo {
         "CREATE TABLE IF NOT EXISTS memos (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT NOT NULL)",
         () => {
           resolve();
-        }
+        },
       );
     });
   }
@@ -58,7 +58,7 @@ export default class Memo {
     };
     const answer = await Enquirer.prompt(question);
 
-    const selectedMemo = memos.find(memo => memo.id === answer.id);
+    const selectedMemo = memos.find((memo) => memo.id === answer.id);
     return selectedMemo;
   }
 
@@ -76,7 +76,7 @@ export default class Memo {
       const memoContent = memo.content.split("\n")[0];
       return { id: memo.id, name: memoContent };
     });
-    return formattedMemos
+    return formattedMemos;
   }
 
   delete(memoId) {
