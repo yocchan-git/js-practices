@@ -17,20 +17,20 @@ export default class Memo {
     });
 
     let memo = "";
-    reader.on("line", function (line) {
+    reader.on("line", (line) => {
       memo += line + "\n";
     });
 
     reader.on("close", () => {
       const sql = `INSERT INTO memos (content) VALUES (?)`;
-      this.db.run(sql, [memo], function () {
+      this.db.run(sql, [memo], () => {
         console.log(`メモを追加しました`);
       });
     });
   }
 
   index() {
-    this.db.each("SELECT * FROM memos", function (err, memo) {
+    this.db.each("SELECT * FROM memos", (err, memo) => {
       const firstLine = memo.content.split("\n")[0];
       console.log(firstLine);
     });
@@ -39,7 +39,7 @@ export default class Memo {
   fetchAllMemos() {
     return new Promise((resolve) => {
       let selectAll = `SELECT * FROM memos`;
-      this.db.all(selectAll, function (err, memos) {
+      this.db.all(selectAll, (err, memos) => {
         resolve(memos);
       });
     });
@@ -55,7 +55,7 @@ export default class Memo {
 
   delete(memoId) {
     const sql = "DELETE FROM memos WHERE id = ?";
-    this.db.run(sql, memoId, function () {
+    this.db.run(sql, memoId, () => {
       console.log("メモを削除しました");
     });
   }
