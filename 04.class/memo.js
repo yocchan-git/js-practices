@@ -9,7 +9,7 @@ export default class Memo {
     this.argv = minimist(process.argv.slice(2));
   }
 
-  async run_memo() {
+  async run_memo_app() {
     await this.createTable();
 
     if (this.argv["l"]) {
