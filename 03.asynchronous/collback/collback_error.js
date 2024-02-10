@@ -12,19 +12,19 @@ db.run(
     if (err) {
       console.error(err.message);
     }
-    let bookTitle = null;
-    let insert = `INSERT INTO books (title) VALUES (?)`;
+    const bookTitle = null;
+    const insert = `INSERT INTO books (title) VALUES (?)`;
 
     db.run(insert, [bookTitle], function (err) {
       if (err) {
         console.error(err.message);
       }
-      let selectAll = `SELECT title FROM book`;
+      const selectAll = `SELECT title FROM book`;
       db.all(selectAll, function (err) {
         if (err) {
           console.error(err.message);
         }
-        let dropTable = `DROP TABLE books`;
+        const dropTable = `DROP TABLE books`;
         db.run(dropTable, function () {
           console.log("Booksテーブルを削除したよ");
           db.close();

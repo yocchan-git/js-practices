@@ -9,12 +9,12 @@ db.run(
   title TEXT NOT NULL UNIQUE
 )`,
   function () {
-    let bookTitle = "ふりがなJavaScript";
-    let insert = `INSERT INTO books (title) VALUES (?)`;
+    const bookTitle = "ふりがなJavaScript";
+    const insert = `INSERT INTO books (title) VALUES (?)`;
     db.run(insert, [bookTitle], function () {
-      let selectAll = `SELECT title FROM books`;
+      const selectAll = `SELECT title FROM books`;
       db.all(selectAll, function (err, rows) {
-        let dropTable = `DROP TABLE books`;
+        const dropTable = `DROP TABLE books`;
         db.run(dropTable, function () {
           console.log("Booksテーブルを削除したよ");
           db.close();

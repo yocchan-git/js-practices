@@ -13,16 +13,16 @@ async function createBooksNonErrors() {
   );
   console.log("Booksテーブルを作成したよ");
 
-  let bookTitle = "ふりがなJavaScript";
-  let insert = `INSERT INTO books (title) VALUES (?)`;
+  const bookTitle = "ふりがなJavaScript";
+  const insert = `INSERT INTO books (title) VALUES (?)`;
   await run(db, insert, [bookTitle]);
 
-  let selectAll = `SELECT * FROM books`;
-  let books = await all(db, selectAll);
+  const selectAll = `SELECT * FROM books`;
+  const books = await all(db, selectAll);
   console.log(`追加したレコードのID : ${books[0].id}`);
   console.log(`追加した本のタイトル : ${books[0].title}`);
 
-  let dropTable = `DROP TABLE books`;
+  const dropTable = `DROP TABLE books`;
   await run(db, dropTable);
 
   console.log("Booksテーブルを削除したよ");

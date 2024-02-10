@@ -11,8 +11,8 @@ run(
 )`,
 )
   .then(function () {
-    let bookTitle = null;
-    let insert = `INSERT INTO books (title) VALUES (?)`;
+    const bookTitle = null;
+    const insert = `INSERT INTO books (title) VALUES (?)`;
 
     return run(db, insert, [bookTitle]);
   })
@@ -20,14 +20,14 @@ run(
     console.error(err);
   })
   .then(function () {
-    let selectAll = `SELECT * FROM book`;
+    const selectAll = `SELECT * FROM book`;
     return all(db, selectAll);
   })
   .catch(function (err) {
     console.error(err);
   })
   .then(function () {
-    let dropTable = `DROP TABLE books`;
+    const dropTable = `DROP TABLE books`;
     return run(db, dropTable);
   })
   .then(function () {

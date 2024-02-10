@@ -11,13 +11,13 @@ run(
 )`,
 )
   .then(function () {
-    let bookTitle = "ふりがなJavaScript";
-    let insert = `INSERT INTO books (title) VALUES (?)`;
+    const bookTitle = "ふりがなJavaScript";
+    const insert = `INSERT INTO books (title) VALUES (?)`;
 
     return run(db, insert, [bookTitle]);
   })
   .then(function () {
-    let selectAll = `SELECT * FROM books`;
+    const selectAll = `SELECT * FROM books`;
 
     return all(db, selectAll);
   })
@@ -25,7 +25,7 @@ run(
     console.log(`追加したレコードのID : ${rows[0].id}`);
     console.log(`追加した本のタイトル : ${rows[0].title}`);
 
-    let dropTable = `DROP TABLE books`;
+    const dropTable = `DROP TABLE books`;
     return run(db, dropTable);
   })
   .then(function () {
