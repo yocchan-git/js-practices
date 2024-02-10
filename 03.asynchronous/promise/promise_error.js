@@ -20,7 +20,7 @@ run(
     console.error(err);
   })
   .then(function () {
-    const selectAll = `SELECT * FROM book`;
+    const selectAll = `SELECT * FROM book ORDER BY id ASC`;
     return all(db, selectAll);
   })
   .catch(function (err) {

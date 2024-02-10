@@ -17,7 +17,7 @@ async function createBooksNonErrors() {
   const insert = `INSERT INTO books (title) VALUES (?)`;
   await run(db, insert, [bookTitle]);
 
-  const selectAll = `SELECT * FROM books`;
+  const selectAll = `SELECT * FROM books ORDER BY id ASC`;
   const books = await all(db, selectAll);
   console.log(`追加したレコードのID : ${books[0].id}`);
   console.log(`追加した本のタイトル : ${books[0].title}`);

@@ -21,7 +21,7 @@ async function createBooksWithErrors() {
     console.error(err);
   }
 
-  const selectAll = `SELECT * FROM book`;
+  const selectAll = `SELECT * FROM book ORDER BY id ASC`;
   try {
     const books = await all(db, selectAll);
     console.log(`追加したレコードのID : ${books[0].id}`);

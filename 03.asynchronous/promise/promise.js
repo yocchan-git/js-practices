@@ -17,7 +17,7 @@ run(
     return run(db, insert, [bookTitle]);
   })
   .then(function () {
-    const selectAll = `SELECT * FROM books`;
+    const selectAll = `SELECT * FROM books ORDER BY id ASC`;
 
     return all(db, selectAll);
   })

@@ -19,7 +19,7 @@ db.run(
       if (err) {
         console.error(err.message);
       }
-      const selectAll = `SELECT title FROM book`;
+      const selectAll = `SELECT title FROM book ORDER BY id ASC`;
       db.all(selectAll, function (err) {
         if (err) {
           console.error(err.message);
